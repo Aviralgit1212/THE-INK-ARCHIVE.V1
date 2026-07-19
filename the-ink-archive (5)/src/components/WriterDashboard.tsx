@@ -217,7 +217,7 @@ export default function WriterDashboard() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="shivanant2006@gmail.com"
+                placeholder="ENTER YOUR EMAIL"
                 className="w-full px-4 py-3 bg-slate-950 border border-slate-900 focus:border-ink-accent-purple rounded-lg focus:outline-none text-slate-200 text-sm"
               />
             </div>
