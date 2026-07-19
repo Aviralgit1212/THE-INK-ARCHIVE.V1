@@ -18,7 +18,7 @@ export default function WriterDashboard() {
   } = useLibrary();
 
   // Authentication state
-  const [email, setEmail] = useState('shivanant2006@gmail.com');
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
 
@@ -192,7 +192,7 @@ export default function WriterDashboard() {
 
           <div className="space-y-1.5">
             <h2 className="font-display font-bold text-xl uppercase tracking-widest text-slate-100">
-              Writer Space
+              Writter Space
             </h2>
             <p className="text-xs text-slate-500 font-serif italic">
               Access is protected for the archivist only.
