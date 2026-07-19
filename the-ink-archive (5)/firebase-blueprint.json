@@ -1,0 +1,21 @@
+{
+  "collections": {
+    "pieces": {
+      "description": "Literary pieces (poems, essays, stories, philosophy, journal) created by the archivist",
+      "fields": {
+        "slug": { "type": "string", "description": "Unique URL-friendly identifier for the piece" },
+        "title": { "type": "string", "description": "Title of the literary work" },
+        "content": { "type": "string", "description": "Markdown-formatted text content of the work" },
+        "language": { "type": "string", "description": "'en' or 'hi'" },
+        "collection": { "type": "string", "description": "'poems', 'essays', 'stories', 'philosophy', 'journal'" },
+        "tags": { "type": "array", "description": "List of keyword tags associated with the piece" },
+        "mood": { "type": "string", "description": "Aesthetic mood (sad, horror, hopeful, philosophical)" },
+        "publishDate": { "type": "string", "description": "ISO-formatted publication date (YYYY-MM-DD)" },
+        "readingTime": { "type": "string", "description": "Approximate reading length estimate" },
+        "isDraft": { "type": "boolean", "description": "True if the piece is a draft, false if published" },
+        "views": { "type": "number", "description": "Total view count for statistics" },
+        "summary": { "type": "string", "description": "Brief introductory description of the piece" }
+      }
+    }
+  }
+}
