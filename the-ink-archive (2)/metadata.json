@@ -1,0 +1,6 @@
+{
+  "name": "The Ink Archive",
+  "description": "A personal digital library with immersive reading environments, cinematic animations, and hand-tracking interactive particles.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
