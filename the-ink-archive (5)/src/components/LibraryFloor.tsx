@@ -218,7 +218,7 @@ export default function LibraryFloor() {
             const shelfHasHover = collectionPieces.some(p => p.slug === hoveredCard);
 
             return (
-              <div key={col.type} className="space-y-4">
+              <div key={col.type} className="space-y-4 rounded-2xl border border-slate-900/60 bg-ink-dark/35 backdrop-blur-sm p-6">
                 {/* Shelf Title bar */}
                 <div className="flex justify-between items-end border-l-2 border-ink-accent-purple pl-4">
                   <div>
