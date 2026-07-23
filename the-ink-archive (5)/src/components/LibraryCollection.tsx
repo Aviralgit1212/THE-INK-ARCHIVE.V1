@@ -116,12 +116,12 @@ export default function LibraryCollection() {
           <p className="text-xs text-slate-600">Consider exploring a different category or adding new writings via the Admin Dashboard.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="group/shelf grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPieces.map((piece) => (
             <article
               key={piece.slug}
               onClick={() => navigateTo('/read/[slug]', { slug: piece.slug })}
-              className="group border border-slate-900/80 hover:border-slate-800 bg-ink-dark/30 hover:bg-ink-dark/60 rounded-xl p-6 cursor-pointer flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 relative"
+              className="group border border-slate-900/80 hover:border-slate-800 bg-ink-dark/60 hover:bg-ink-dark/80 backdrop-blur-sm rounded-xl p-6 cursor-pointer flex flex-col justify-between transition-all duration-300 ease-out opacity-100 group-hover/shelf:opacity-55 hover:opacity-100! hover:scale-[1.02] hover:z-20 hover:shadow-2xl hover:shadow-black/50 relative"
             >
               <div className="space-y-4">
                 <div className="flex justify-between items-center text-[10px] font-mono">

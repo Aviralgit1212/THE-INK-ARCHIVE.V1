@@ -215,6 +215,7 @@ export default function LibraryFloor() {
         <div className="space-y-12">
           {collectionTypes.map(col => {
             const collectionPieces = languageFiltered.filter(p => p.collection === col.type);
+            const shelfHasHover = collectionPieces.some(p => p.slug === hoveredCard);
 
             return (
               <div key={col.type} className="space-y-4">
@@ -261,7 +262,13 @@ export default function LibraryFloor() {
                           onMouseEnter={() => setHoveredCard(piece.slug)}
                           onMouseLeave={() => setHoveredCard(null)}
                           onClick={() => navigateTo('/read/[slug]', { slug: piece.slug })}
-                          className={`group rounded-xl border p-5 flex flex-col justify-between bg-ink-dark/40 cursor-pointer transition-all duration-300 relative overflow-hidden ${styles.border} ${styles.glow}`}
+                          className={`group rounded-xl border p-5 flex flex-col justify-between bg-ink-dark/70 backdrop-blur-sm cursor-pointer transition-all duration-300 ease-out relative overflow-hidden ${styles.border} ${styles.glow} ${
+                            isHovered
+                              ? 'scale-[1.03] shadow-2xl shadow-black/60 z-20'
+                              : shelfHasHover
+                              ? 'opacity-60 scale-100'
+                              : 'opacity-100 scale-100'
+                          }`}
                         >
                           <div className="space-y-4">
                             {/* Card Top: Metadata */}
