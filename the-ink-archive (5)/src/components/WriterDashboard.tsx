@@ -18,7 +18,7 @@ export default function WriterDashboard() {
   } = useLibrary();
 
   // Authentication state
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('shivanant2006@gmail.com');
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
 
@@ -49,7 +49,11 @@ export default function WriterDashboard() {
     return text
       .toLowerCase()
       .trim()
-      .replace(/[^\w\s-]/g, '') // Remove non-word characters
+      // \w only matches [A-Za-z0-9_] in JS regex, so Devanagari (and any
+      // other non-Latin script) was being stripped entirely, leaving an
+      // empty slug. \p{L}/\p{N} (with the /u flag) match letters and
+      // numbers in ANY script, so Hindi titles slugify correctly too.
+      .replace(/[^\p{L}\p{N}\s-]/gu, '') // Remove punctuation/symbols, keep letters/numbers in any language
       .replace(/[\s_]+/g, '-')  // Replace spaces/underscores with -
       .replace(/^-+|-+$/g, ''); // Trim leading/trailing hyphens
   };
@@ -129,8 +133,9 @@ export default function WriterDashboard() {
       return;
     }
 
-    // Check slug duplicates when creating a new piece
-    if (isCreatingNew && pieces.some(p => p.slug === formSlug)) {
+    // Check the slug isn't already used by a DIFFERENT piece — applies both
+    // when creating new and when renaming an existing piece's slug.
+    if (pieces.some(p => p.slug === formSlug && p.slug !== activeSlug)) {
       setErrorMessage('A piece with this unique slug already exists. Please choose a different slug.');
       return;
     }
@@ -150,7 +155,15 @@ export default function WriterDashboard() {
       isDraft: formIsDraft
     };
 
-    addPiece(updatedPiece);
+    // Pieces are stored keyed BY slug, so editing the slug of an existing
+    // piece isn't a rename — it's a brand-new document under the new slug.
+    // Remove the old one so the edit doesn't leave a duplicate behind.
+    const isSlugRename = !isCreatingNew && activeSlug && activeSlug !== formSlug;
+    if (isSlugRename) {
+      deletePiece(activeSlug);
+    }
+
+    addPiece(updatedPiece, isSlugRename ? activeSlug : undefined);
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 2000);
 
@@ -192,7 +205,7 @@ export default function WriterDashboard() {
 
           <div className="space-y-1.5">
             <h2 className="font-display font-bold text-xl uppercase tracking-widest text-slate-100">
-              Writter Space
+              Writer Space
             </h2>
             <p className="text-xs text-slate-500 font-serif italic">
               Access is protected for the archivist only.
@@ -217,7 +230,7 @@ export default function WriterDashboard() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="ENTER YOUR EMAIL"
+                placeholder="shivanant2006@gmail.com"
                 className="w-full px-4 py-3 bg-slate-950 border border-slate-900 focus:border-ink-accent-purple rounded-lg focus:outline-none text-slate-200 text-sm"
               />
             </div>
@@ -445,7 +458,6 @@ export default function WriterDashboard() {
                   onChange={(e) => setFormSlug(e.target.value)}
                   placeholder="e.g. the-architecture-of-silence"
                   className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-900 focus:border-ink-accent-cyan/40 rounded-lg text-slate-200 text-sm focus:outline-none font-mono"
-                  disabled={!isCreatingNew}
                 />
               </div>
 
