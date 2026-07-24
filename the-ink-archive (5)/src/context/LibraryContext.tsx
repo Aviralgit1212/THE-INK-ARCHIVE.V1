@@ -35,7 +35,7 @@ interface LibraryContextType {
   transitionPhase: 'phase1' | 'phase2' | 'phase3' | 'idle';
   isTransitioning: boolean;
   navigateTo: (route: '/' | '/library' | '/library/[collection]' | '/read/[slug]' | '/archive' | '/search' | '/dashboard', params?: { collection?: CollectionType; slug?: string }) => void;
-  addPiece: (piece: Omit<LiteraturePiece, 'views'>) => Promise<void>;
+  addPiece: (piece: Omit<LiteraturePiece, 'views'>, previousSlug?: string) => Promise<void>;
   deletePiece: (slug: string) => Promise<void>;
   incrementViews: (slug: string) => Promise<void>;
   toggleBookmark: (slug: string) => void;
@@ -208,9 +208,12 @@ export function LibraryProvider({ children }: { children: React.ReactNode }) {
     }, 600);
   };
 
-  const addPiece = async (pieceData: Omit<LiteraturePiece, 'views'>) => {
+  const addPiece = async (pieceData: Omit<LiteraturePiece, 'views'>, previousSlug?: string) => {
     try {
-      const existingPiece = pieces.find(p => p.slug === pieceData.slug);
+      // On a slug rename, the view history lives under the OLD slug (the new
+      // document doesn't exist yet), so look it up there instead.
+      const lookupSlug = previousSlug || pieceData.slug;
+      const existingPiece = pieces.find(p => p.slug === lookupSlug);
       const views = existingPiece ? (existingPiece.views || 0) : 0;
       await setDoc(doc(db, 'pieces', pieceData.slug), {
         ...pieceData,
